@@ -8,6 +8,7 @@ import com.turkcell.sol.catalog_service.dto.responses.GetProductResponse;
 import com.turkcell.sol.catalog_service.dto.responses.UpdatedProductResponse;
 import com.turkcell.sol.catalog_service.mapper.ProductMapper;
 import com.turkcell.sol.catalog_service.model.Product;
+import com.turkcell.sol.catalog_service.repository.ProductCacheRepository;
 import com.turkcell.sol.catalog_service.repository.ProductRepository;
 import com.turkcell.sol.catalog_service.service.ProductService;
 import com.turkcell.sol.catalog_service.service.rules.ProductBusinessRules;
@@ -26,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
     private final ProductBusinessRules productBusinessRules;
+    private final ProductCacheRepository productCacheRepository;
 
     @Override
     public CreatedProductResponse add(CreateProductRequest createProductRequest) {
@@ -33,21 +35,22 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.toProduct(createProductRequest);
         productRepository.save(product);
 
+        productCacheRepository.addOrUpdate(product);
+
         return productMapper.toCreatedProductResponse(product);
     }
 
     @Override
     public List<GetProductResponse> getAll() {
 
-        List<Product> productList = productRepository.findAll();
-
+        List<Product> productList = productCacheRepository.getAll();
         return productMapper.toGetProductResponse(productList);
     }
 
     @Override
-    public GetProductResponse getById(UUID id) {
+    public GetProductResponse getById(String id) {
 
-        Optional<Product> productOptional = productRepository.findById(id);
+        Optional<Product> productOptional = productCacheRepository.getById(id);
 
         productBusinessRules.productShouldBeExist(productOptional);
 
@@ -60,6 +63,8 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.toProduct(updateProductRequest);
 
         productRepository.save(product);
+
+        productCacheRepository.addOrUpdate(product);
 
         return productMapper.toUpdatedProductResponse(product);
     }
@@ -76,6 +81,8 @@ public class ProductServiceImpl implements ProductService {
         product.setDeletedDate(LocalDateTime.now());
 
         productRepository.save(product);
+
+        productCacheRepository.delete(id.toString());
 
         return productMapper.toDeletedProductResponse(product);
     }

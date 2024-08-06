@@ -14,7 +14,7 @@ public interface ProductService {
 
     CreatedProductResponse add(CreateProductRequest createProductRequest);
     List<GetProductResponse> getAll();
-    GetProductResponse getById(UUID id);
+    GetProductResponse getById(String id);
     UpdatedProductResponse update(UpdateProductRequest updateProductRequest);
     DeletedProductResponse delete(UUID id);
 

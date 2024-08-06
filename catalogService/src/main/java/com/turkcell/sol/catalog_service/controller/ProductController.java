@@ -38,7 +38,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GetProductResponse getById(@PathVariable UUID id){
+    public GetProductResponse getById(@PathVariable String id){
 
         return productService.getById(id);
     }
