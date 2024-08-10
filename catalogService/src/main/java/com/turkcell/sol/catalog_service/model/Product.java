@@ -31,6 +31,6 @@ public class Product extends BaseEntity<UUID> {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "stock")
-    private int stock;
+    @Column(name = "have_stock")
+    private boolean haveStock;
 }

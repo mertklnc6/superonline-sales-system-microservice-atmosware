@@ -6,6 +6,7 @@ public record UpdateProductRequest(
         String name,
         String description,
         double price,
+        boolean hasStock,
         int stock
 ) {
 }

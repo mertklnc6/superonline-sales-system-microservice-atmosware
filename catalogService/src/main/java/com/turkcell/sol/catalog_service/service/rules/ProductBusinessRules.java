@@ -4,7 +4,7 @@ import com.turkcell.sol.catalog_service.constant.Messages;
 import com.turkcell.sol.catalog_service.model.Product;
 import com.turkcell.sol.catalog_service.repository.ProductRepository;
 import com.turkcell.sol.catalog_service.util.MessageService;
-import com.turkcell.sol.common.shared.exceptions.types.BusinessException;
+import com.turkcell.sol.core.shared.exceptions.types.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

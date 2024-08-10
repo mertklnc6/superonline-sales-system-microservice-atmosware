@@ -1,6 +1,7 @@
 package com.turkcell.sol.catalog_service.repository.impl;
 
 import com.turkcell.sol.catalog_service.model.Product;
+import com.turkcell.sol.catalog_service.model.ProductCache;
 import com.turkcell.sol.catalog_service.repository.ProductCacheRepository;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,30 +16,30 @@ import java.util.stream.Collectors;
 public class ProductCacheRepositoryImpl implements ProductCacheRepository {
 
     private static final String KEY = "PRODUCT_CACHE";
-    private final HashOperations<String, String, Product> hashOperations;
+    private final HashOperations<String, String, ProductCache> hashOperations;
 
     public ProductCacheRepositoryImpl(RedisTemplate<String, Object> redisTemplate){
         this.hashOperations = redisTemplate.opsForHash();
     }
 
     @Override
-    public List<Product> getAll() {
-        Map<String, Product> entries = hashOperations.entries(KEY);
+    public List<ProductCache> getAll() {
+        Map<String, ProductCache> entries = hashOperations.entries(KEY);
         return entries.values().stream().collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Product> getById(String id) {
-        Product product = hashOperations.get(KEY,id);
-        if(product == null){
+    public Optional<ProductCache> getById(String id) {
+        ProductCache productCache = hashOperations.get(KEY,id);
+        if(productCache == null){
             return Optional.empty();
         }
-        return Optional.of(product);
+        return Optional.of(productCache);
     }
 
     @Override
-    public void addOrUpdate(Product product) {
-        hashOperations.put(KEY, product.getId().toString(), product);
+    public void addOrUpdate(ProductCache productCache) {
+        hashOperations.put(KEY, productCache.getId(), productCache);
     }
 
     @Override

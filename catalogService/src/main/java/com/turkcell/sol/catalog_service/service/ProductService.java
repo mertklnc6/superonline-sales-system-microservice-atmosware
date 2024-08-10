@@ -13,9 +13,11 @@ import java.util.UUID;
 public interface ProductService {
 
     CreatedProductResponse add(CreateProductRequest createProductRequest);
-    List<GetProductResponse> getAll();
+    List<GetProductResponse> getAllProducts();
+    List<GetProductResponse> getCatalog();
     GetProductResponse getById(String id);
     UpdatedProductResponse update(UpdateProductRequest updateProductRequest);
     DeletedProductResponse delete(UUID id);
+    void deleteFromCatalog(UUID id);
 
 }

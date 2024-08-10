@@ -1,17 +1,18 @@
 package com.turkcell.sol.catalog_service.repository;
 
 import com.turkcell.sol.catalog_service.model.Product;
+import com.turkcell.sol.catalog_service.model.ProductCache;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public interface ProductCacheRepository {
-    List<Product> getAll();
+    List<ProductCache> getAll();
 
-    Optional<Product> getById(String id);
+    Optional<ProductCache> getById(String id);
 
-    void addOrUpdate(Product product);
+    void addOrUpdate(ProductCache productCache);
 
     void delete(String id);
 }

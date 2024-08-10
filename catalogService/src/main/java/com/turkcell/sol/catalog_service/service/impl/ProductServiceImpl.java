@@ -8,10 +8,16 @@ import com.turkcell.sol.catalog_service.dto.responses.GetProductResponse;
 import com.turkcell.sol.catalog_service.dto.responses.UpdatedProductResponse;
 import com.turkcell.sol.catalog_service.mapper.ProductMapper;
 import com.turkcell.sol.catalog_service.model.Product;
+import com.turkcell.sol.catalog_service.model.ProductCache;
 import com.turkcell.sol.catalog_service.repository.ProductCacheRepository;
 import com.turkcell.sol.catalog_service.repository.ProductRepository;
 import com.turkcell.sol.catalog_service.service.ProductService;
 import com.turkcell.sol.catalog_service.service.rules.ProductBusinessRules;
+import com.turkcell.sol.catalog_service.util.rabbitMQ.sender.ProductSender;
+import com.turkcell.sol.core.shared.dto.rabbitMQ.Product.ProductCreatedEvent;
+import com.turkcell.sol.core.shared.dto.rabbitMQ.Product.ProductDeletedEvent;
+import com.turkcell.sol.core.shared.dto.rabbitMQ.Product.ProductUpdatedEvent;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,33 +34,56 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductBusinessRules productBusinessRules;
     private final ProductCacheRepository productCacheRepository;
+    private final ProductSender productSender;
 
+    @Transactional
     @Override
     public CreatedProductResponse add(CreateProductRequest createProductRequest) {
 
         Product product = productMapper.toProduct(createProductRequest);
         productRepository.save(product);
 
-        productCacheRepository.addOrUpdate(product);
+        ProductCache productCache =  productMapper.toProductCache(product);
+        productCacheRepository.addOrUpdate(productCache);
+
+        ProductCreatedEvent productCreatedEvent = productMapper.toProductCreatedEvent(product);
+
+        if(product.isHaveStock()){
+            productCreatedEvent.setStock(createProductRequest.stock());
+            productSender.send(productCreatedEvent);
+        }
 
         return productMapper.toCreatedProductResponse(product);
     }
 
     @Override
-    public List<GetProductResponse> getAll() {
+    public List<GetProductResponse> getAllProducts() {
 
-        List<Product> productList = productCacheRepository.getAll();
+        List<Product> productList = productRepository.findAll();
         return productMapper.toGetProductResponse(productList);
     }
 
     @Override
+    public List<GetProductResponse> getCatalog() {
+
+        List<ProductCache> productCacheList = productCacheRepository.getAll();
+
+        List<Product> productList = productMapper.toProduct(productCacheList);
+
+        return productMapper.toGetProductResponse(productList);
+    }
+
+
+    @Override
     public GetProductResponse getById(String id) {
 
-        Optional<Product> productOptional = productCacheRepository.getById(id);
+        Optional<ProductCache> productCacheOptional = productCacheRepository.getById(id);
 
-        productBusinessRules.productShouldBeExist(productOptional);
+        Product product = productMapper.toProduct(productCacheOptional.get());
 
-        return productMapper.toGetProductResponse(productOptional.get());
+        productBusinessRules.productShouldBeExist(Optional.of(product));
+
+        return productMapper.toGetProductResponse(product);
     }
 
     @Override
@@ -64,7 +93,11 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(product);
 
-        productCacheRepository.addOrUpdate(product);
+        ProductCache productCache = productMapper.toProductCache(product);
+        productCacheRepository.addOrUpdate(productCache);
+
+        ProductUpdatedEvent productUpdatedEvent = productMapper.toProductUpdatedEvent(product);
+        productSender.send(productUpdatedEvent);
 
         return productMapper.toUpdatedProductResponse(product);
     }
@@ -77,13 +110,20 @@ public class ProductServiceImpl implements ProductService {
         productBusinessRules.productShouldBeExist(productOptional);
 
         Product product = productOptional.get();
-
         product.setDeletedDate(LocalDateTime.now());
 
         productRepository.save(product);
 
         productCacheRepository.delete(id.toString());
 
+        ProductDeletedEvent productDeletedEvent = productMapper.toProductDeletedEvent(product);
+        productSender.send(productDeletedEvent);
+
         return productMapper.toDeletedProductResponse(product);
+    }
+
+    @Override
+    public void deleteFromCatalog(UUID id) {
+        productCacheRepository.delete(id.toString());
     }
 }
