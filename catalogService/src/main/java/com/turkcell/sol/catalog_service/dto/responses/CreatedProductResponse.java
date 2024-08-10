@@ -8,7 +8,7 @@ public record CreatedProductResponse(
         String name,
         String description,
         double price,
-        int stock,
+        boolean hasStock,
         LocalDateTime createdDate
 ) {
 }

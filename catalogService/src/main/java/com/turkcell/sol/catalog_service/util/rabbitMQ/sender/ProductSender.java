@@ -1,10 +1,9 @@
 package com.turkcell.sol.catalog_service.util.rabbitMQ.sender;
 
 
-
-import com.turkcell.sol.core.shared.dto.rabbitMQ.Product.ProductCreatedEvent;
-import com.turkcell.sol.core.shared.dto.rabbitMQ.Product.ProductDeletedEvent;
-import com.turkcell.sol.core.shared.dto.rabbitMQ.Product.ProductUpdatedEvent;
+import com.turkcell.sol.catalog_service.shared.dto.rabbitMQ.Product.ProductCreatedEvent;
+import com.turkcell.sol.catalog_service.shared.dto.rabbitMQ.Product.ProductDeletedEvent;
+import com.turkcell.sol.catalog_service.shared.dto.rabbitMQ.Product.ProductUpdatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

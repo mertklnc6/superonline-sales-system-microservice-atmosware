@@ -1,6 +1,6 @@
 package com.turkcell.sol.stock_service.util.rabbitMQ.sender;
 
-import com.turkcell.sol.core.shared.dto.rabbitMQ.Stock.StockUpdatedEvent;
+import com.turkcell.sol.stock_service.shared.dto.rabbitMQ.Stock.OutOfStockEvent;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +14,9 @@ public class StockSender {
     private final RabbitTemplate rabbitTemplate;
     private static final Logger logger = LoggerFactory.getLogger(StockSender.class);
 
-    public void send(StockUpdatedEvent stockUpdatedEvent) {
+    public void send(OutOfStockEvent outOfStockEvent) {
 
-        logger.info("Stock updated event sent to RabbitMQ: {}", stockUpdatedEvent);
-        rabbitTemplate.convertAndSend("stock-updated", stockUpdatedEvent);
+        logger.info("Stock updated event sent to RabbitMQ: {}", outOfStockEvent);
+        rabbitTemplate.convertAndSend("out-of-stock", outOfStockEvent);
     }
 }

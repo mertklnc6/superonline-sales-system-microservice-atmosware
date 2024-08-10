@@ -4,7 +4,6 @@ public record CreateProductRequest(
         String name,
         String description,
         boolean hasStock,
-        int stock,
         double price
 ) {
 }

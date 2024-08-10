@@ -7,11 +7,19 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${instanceId:${random.value}}
     preferIpAddress: true
+
 server:
   port: 7007
+
 spring:
   application:
     name: catalog-service
+  graphql:
+    path: /graphql
+    graphiql:
+      enabled: true
+    playground:
+      enabled: true
   data:
     redis:
       host: localhost
@@ -31,3 +39,6 @@ spring:
           validation:
             mode: none
     show-sql: true
+
+
+

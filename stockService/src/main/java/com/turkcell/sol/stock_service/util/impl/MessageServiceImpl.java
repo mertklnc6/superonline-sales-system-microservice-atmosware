@@ -1,6 +1,6 @@
 package com.turkcell.sol.stock_service.util.impl;
 
-import com.turkcell.sol.catalog_service.util.MessageService;
+import com.turkcell.sol.stock_service.util.MessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

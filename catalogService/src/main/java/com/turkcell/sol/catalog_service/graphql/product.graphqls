@@ -1,16 +1,16 @@
-type Product {
-    id: ID!
-    name: String!
-    description: String
-    price: Float!
-    hasStock: Boolean!
-}
-
-type Query {
-    getProductById(id: ID!): Product
-    getAllProducts: [Product]
-}
-
-type Mutation {
-    addProduct(name: String!, description: String!, price: Float!, ,stock: Int, hasStock: Boolean!): Product
-}
+#type Product {
+#    id: ID!
+#    name: String!
+#    description: String
+#    price: Float!
+#    hasStock: Boolean!
+#}
+#
+#type Query {
+#    getProductById(id: ID!): Product
+#    getAllProducts: [Product]
+#}
+#
+#type Mutation {
+#    addProduct(name: String!, description: String!, price: Float!, ,stock: Int, hasStock: Boolean!): Product
+#}

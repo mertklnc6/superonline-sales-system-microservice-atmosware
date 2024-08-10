@@ -13,6 +13,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,34 +26,37 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @MutationMapping
-    public CreatedProductResponse add(@Argument CreateProductRequest createProductRequest){
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreatedProductResponse add(@Valid @RequestBody CreateProductRequest createProductRequest){
+
         return productService.add(createProductRequest);
     }
 
-    @QueryMapping
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<GetProductResponse> getAll(){
 
-        return productService.getAllProducts();
+        return productService.getAll();
     }
 
-    @QueryMapping
-    public List<GetProductResponse> getCatalog(){
-        return productService.getCatalog();
-    }
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public GetProductResponse getById(@PathVariable UUID id){
 
-    @QueryMapping
-    public GetProductResponse getById(@Argument String id){
         return productService.getById(id);
     }
 
-    @MutationMapping
-    public UpdatedProductResponse update(@Argument UpdateProductRequest updateProductRequest){
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public UpdatedProductResponse update(@Valid @RequestBody UpdateProductRequest updateProductRequest){
+
         return productService.update(updateProductRequest);
     }
 
-    @MutationMapping
-    public DeletedProductResponse delete(@Argument UUID id){
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public DeletedProductResponse delete(@PathVariable UUID id){
         return productService.delete(id);
     }
 }

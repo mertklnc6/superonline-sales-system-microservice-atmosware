@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLRestriction;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -31,6 +29,6 @@ public class Product extends BaseEntity<UUID> {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "have_stock")
-    private boolean haveStock;
+    @Column(name = "has_stock")
+    private boolean hasStock;
 }

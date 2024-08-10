@@ -1,10 +1,10 @@
 package com.turkcell.sol.stock_service.util.rabbitMQ.receiver;
 
 
-import com.turkcell.sol.core.shared.dto.rabbitMQ.Product.ProductCreatedEvent;
-import com.turkcell.sol.core.shared.dto.rabbitMQ.Product.ProductDeletedEvent;
-import com.turkcell.sol.core.shared.dto.rabbitMQ.Product.ProductUpdatedEvent;
 import com.turkcell.sol.stock_service.service.StockService;
+import com.turkcell.sol.stock_service.shared.dto.rabbitMQ.Product.ProductCreatedEvent;
+import com.turkcell.sol.stock_service.shared.dto.rabbitMQ.Product.ProductDeletedEvent;
+import com.turkcell.sol.stock_service.shared.dto.rabbitMQ.Product.ProductUpdatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
