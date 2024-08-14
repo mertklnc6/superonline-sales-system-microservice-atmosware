@@ -2,10 +2,11 @@ package com.tukcell.sol.notification_service.shared.exceptions.handlers;
 
 
 
-import com.turkcell.sol.order_service.shared.exceptions.types.AuthenticationException;
-import com.turkcell.sol.order_service.shared.exceptions.types.BusinessException;
-import com.turkcell.sol.order_service.shared.exceptions.types.NotFoundException;
-import com.turkcell.sol.order_service.shared.exceptions.types.ValidationException;
+import com.tukcell.sol.notification_service.shared.exceptions.problem_details.*;
+import com.tukcell.sol.notification_service.shared.exceptions.types.AuthenticationException;
+import com.tukcell.sol.notification_service.shared.exceptions.types.BusinessException;
+import com.tukcell.sol.notification_service.shared.exceptions.types.NotFoundException;
+import com.tukcell.sol.notification_service.shared.exceptions.types.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

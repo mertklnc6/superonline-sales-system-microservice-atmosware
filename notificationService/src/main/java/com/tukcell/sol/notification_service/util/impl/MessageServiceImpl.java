@@ -1,7 +1,7 @@
 package com.tukcell.sol.notification_service.util.impl;
 
 
-import com.turkcell.sol.order_service.util.MessageService;
+import com.tukcell.sol.notification_service.util.MessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
