@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/commonPayment/commonPayment.iml" filepath="$PROJECT_DIR$/commonPayment/commonPayment.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/superonline-sales-system-project-atmosware.iml" filepath="$PROJECT_DIR$/.idea/superonline-sales-system-project-atmosware.iml" />
     </modules>
   </component>

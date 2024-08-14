@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option java_multiple_files=true;
+option java_package = "com.turkcell.sol";
+
+service PaymentService {
+  rpc ProcessPayment (PaymentRequest) returns (PaymentResponse);
+}
+
+message PaymentRequest {
+  string order_id = 1;
+  double amount = 2;
+  string payment_method = 3;
+  PaymentDetails payment_details = 4;
+  bool success = 5;
+}
+
+message PaymentDetails {
+  oneof details {
+    CreditCardPaymentDetails credit_card_details = 1;
+    BankTransferPaymentDetails bank_transfer_details = 2;
+  }
+}
+
+message PaymentResponse {
+  bool success = 1;
+  string transaction_id = 2;
+  string message = 3;
+}
+
+message CreditCardPaymentDetails {
+  string card_number = 1;
+  string card_holder_name = 2;
+  string expiry_date = 3;
+  string cvv = 4;
+}
+
+message BankTransferPaymentDetails {
+  string customer_name = 1;
+  string transaction_number = 2;
+}

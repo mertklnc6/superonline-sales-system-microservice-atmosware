@@ -16,7 +16,7 @@ import com.turkcell.sol.catalog_service.service.rules.ProductBusinessRules;
 import com.turkcell.sol.catalog_service.shared.dto.rabbitMQ.Product.ProductCreatedEvent;
 import com.turkcell.sol.catalog_service.shared.dto.rabbitMQ.Product.ProductDeletedEvent;
 import com.turkcell.sol.catalog_service.shared.dto.rabbitMQ.Product.ProductUpdatedEvent;
-import com.turkcell.sol.catalog_service.util.rabbitMQ.sender.ProductSender;
+import com.turkcell.sol.catalog_service.rabbitMQ.sender.ProductSender;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,8 +44,8 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
 
         ProductCreatedEvent productCreatedEvent = productMapper.toProductCreatedEvent(product);
-
         if (product.isHasStock()) {
+            productCreatedEvent.setStock(createProductRequest.stock());
             productSender.send(productCreatedEvent);
         }
 
@@ -56,11 +56,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public boolean getStockInfo(String id) {
+        Optional<Product> productOptional = productRepository.findById(UUID.fromString(id));
+
+        productBusinessRules.productShouldBeExist(productOptional);
+
+        return productOptional.get().isHasStock();
+    }
+
+    @Override
     public List<GetProductResponse> getAll() {
 
         List<Product> productList = productRepository.findAll();
         return productMapper.toGetProductResponse(productList);
     }
+
+    @Override
+    public List<GetProductResponse> getAllByIds(List<String> ids) {
+        List<UUID> uuidList = ids.stream()
+                .map(UUID::fromString)
+                .toList();
+        List<Product> productList = productRepository.findAllByIdIsIn(uuidList);
+        return productMapper.toGetProductResponse(productList);
+    }
+
 
     @Override
     public GetProductResponse getById(UUID id) {

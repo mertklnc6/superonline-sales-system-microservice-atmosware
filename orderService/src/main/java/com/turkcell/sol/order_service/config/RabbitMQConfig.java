@@ -1,28 +1,42 @@
 package com.turkcell.sol.order_service.config;
 
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
-    @Bean
-    public Queue queue()
-    {
-        return new Queue("queue-name", false);
-    }
 
-    @Bean public Exchange exchange()
-    {
-        return new DirectExchange("exchange-name");
+    @Bean
+    public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
     @Bean
-    public Binding binding(Queue queue, Exchange exchange)
+    public Queue productCreatedQueue()
     {
-        return BindingBuilder.bind(queue)
-                .to(exchange)
-                .with("routing-key")
-                .noargs();
+        return new Queue("product-created", false);
     }
+
+    @Bean
+    public Queue productUpdatedQueue(){
+        return new Queue("product-updated", false);
+    }
+
+    @Bean
+    public Queue productDeletedQueue(){
+        return new Queue("product-deleted", false);
+    }
+
+    @Bean
+    public Queue outOfStockQueue(){
+        return new Queue("out-of-stock", false);
+    }
+
+    @Bean
+    public Queue orderNotificationQueue(){
+        return new Queue("order-notification", false);
+    }
+
 }

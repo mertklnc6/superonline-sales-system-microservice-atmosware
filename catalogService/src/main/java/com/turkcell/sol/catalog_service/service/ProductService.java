@@ -13,7 +13,9 @@ import java.util.UUID;
 public interface ProductService {
 
     CreatedProductResponse add(CreateProductRequest createProductRequest);
+    boolean getStockInfo(String id);
     List<GetProductResponse> getAll();
+    List<GetProductResponse> getAllByIds(List<String> ids);
     GetProductResponse getById(UUID id);
     UpdatedProductResponse update(UpdateProductRequest updateProductRequest);
     DeletedProductResponse delete(UUID id);

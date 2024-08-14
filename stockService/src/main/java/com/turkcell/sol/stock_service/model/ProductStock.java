@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,8 +17,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "product_stocks")
 public class ProductStock {
     @Id
-    private int id;
+    @Field("_id")
+    private String id;
     private String productId;
     private int stock;
+    private LocalDateTime createdDate;
 }
 

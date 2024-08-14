@@ -3,7 +3,7 @@ package com.turkcell.sol.catalog_service.dto.responses;
 import java.util.UUID;
 
 public record GetProductResponse(
-        UUID id,
+        UUID productId,
         String name,
         double price
 

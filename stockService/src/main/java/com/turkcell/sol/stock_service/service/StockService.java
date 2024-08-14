@@ -1,13 +1,18 @@
 package com.turkcell.sol.stock_service.service;
 
+import com.turkcell.sol.stock_service.dto.requests.StockRequest;
+import com.turkcell.sol.stock_service.dto.responses.GetStockResponse;
 import com.turkcell.sol.stock_service.model.ProductStock;
-import com.turkcell.sol.stock_service.shared.dto.rabbitMQ.Product.ProductCreatedEvent;
-import com.turkcell.sol.stock_service.shared.dto.rabbitMQ.Product.ProductDeletedEvent;
-import com.turkcell.sol.stock_service.shared.dto.rabbitMQ.Product.ProductUpdatedEvent;
+
+import java.util.List;
 
 public interface StockService {
-    void add(ProductCreatedEvent productCreatedEvent);
-    void update(ProductUpdatedEvent productUpdatedEvent);
-    void delete(ProductDeletedEvent productDeletedEvent);
-    void decreaseStock();
+    List<GetStockResponse> getAll();
+    GetStockResponse getById(String id);
+    void add(ProductStock productStock);
+    void update(ProductStock productStock);
+    void delete(ProductStock productStock);
+    void decreaseStock(List<StockRequest> StockRequestList);
+    void rollbackStock(List<StockRequest> StockRequestList);
+    void removeOutOfStockProductsFromCatalog();
 }

@@ -8,16 +8,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="catalogService" />
+        <module name="commonPayment" />
+        <module name="common" />
         <module name="paymentService" />
         <module name="gatewayService" />
         <module name="configServer" />
         <module name="orderService" />
+        <module name="notificationService" />
         <module name="stockService" />
         <module name="discoveryServer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="common" target="17" />
       <module name="core" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -25,10 +27,12 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="catalogService" options="-parameters" />
       <module name="common" options="-parameters" />
+      <module name="commonPayment" options="" />
       <module name="configServer" options="-parameters" />
       <module name="core" options="-parameters" />
       <module name="discoveryServer" options="-parameters" />
       <module name="gatewayService" options="-parameters" />
+      <module name="notificationService" options="-parameters" />
       <module name="orderService" options="-parameters" />
       <module name="paymentService" options="-parameters" />
       <module name="stockService" options="-parameters" />

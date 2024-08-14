@@ -14,6 +14,5 @@ public interface OrderService {
     CreatedOrderResponse create(CreateOrderRequest createOrderRequest);
     GetOrderResponse getById(UUID id);
     List<GetOrderResponse> getAll();
-    UpdatedOrderResponse update(UpdateOrderRequest updateOrderRequest);
     DeletedOrderResponse delete(UUID id);
 }

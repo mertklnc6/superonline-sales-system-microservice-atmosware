@@ -1,5 +1,6 @@
 package com.turkcell.sol.order_service.model;
 
+import com.turkcell.sol.order_service.model.Enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,9 @@ public class Order extends BaseEntity<UUID> {
 
     @Column(name = "order_number", unique = true, nullable = false, insertable = false , updatable = false)
     private String orderNumber;
+
+    @Column(name = "status")
+    private OrderStatus status;
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> items;

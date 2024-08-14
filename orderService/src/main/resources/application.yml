@@ -1,0 +1,41 @@
+eureka:
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:7000/eureka
+  instance:
+    instance-id: ${spring.application.name}:${instanceId:${random.value}}
+    preferIpAddress: true
+
+server:
+  port: 7002
+grpc:
+  client:
+    paymentService:
+      address: 'localhost:9090'
+spring:
+  application:
+    name: order-service
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sol_order
+    username: postgres
+    password: 54321
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+      jakarta:
+        persistence:
+          validation:
+            mode: none
+    show-sql: true
+
+
+

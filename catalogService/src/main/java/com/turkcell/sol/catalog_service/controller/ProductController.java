@@ -21,7 +21,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/products")
+@RequestMapping("/catalog-service/api/v1/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -40,11 +40,23 @@ public class ProductController {
         return productService.getAll();
     }
 
+    @GetMapping("/getAllByIds")
+    @ResponseStatus(HttpStatus.OK)
+    public List<GetProductResponse> getAllByIds(List<String> ids){
+        return productService.getAllByIds(ids);
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public GetProductResponse getById(@PathVariable UUID id){
 
         return productService.getById(id);
+    }
+
+    @GetMapping("/getStockInfo/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean getStockInfo(@PathVariable String id){
+        return productService.getStockInfo(id);
     }
 
     @PutMapping

@@ -19,14 +19,14 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/catalog")
+@RequestMapping("catalog-service/api/v1/catalog")
 public class CatalogController {
 
     private final CatalogService catalogService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<GetCatalogItemResponse> get(){
+    public List<GetCatalogItemResponse> getAll(){
         return catalogService.getAll();
     }
 
