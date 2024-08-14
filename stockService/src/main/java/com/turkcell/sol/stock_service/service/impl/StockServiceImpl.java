@@ -47,12 +47,24 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void update(ProductStock productStock) {
+
+        Optional<ProductStock> productStockOptional = stockRepository.findByProductId(productStock.getProductId());
+
+        stockBusinessRules.stockShouldBeExist(productStockOptional);
+
+        productStock.setId(productStockOptional.get().getId());
+
         stockRepository.save(productStock);
     }
 
     @Override
     public void delete(ProductStock productStock) {
-        stockRepository.delete(productStock);
+
+        Optional<ProductStock> productStockOptional = stockRepository.findByProductId(productStock.getProductId());
+
+        stockBusinessRules.stockShouldBeExist(productStockOptional);
+
+        stockRepository.delete(productStockOptional.get());
     }
 
     @Override

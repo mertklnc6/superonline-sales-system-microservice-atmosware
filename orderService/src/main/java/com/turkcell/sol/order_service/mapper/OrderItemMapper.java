@@ -13,6 +13,10 @@ import java.util.List;
 public interface OrderItemMapper {
     OrderItem toOrderItem(OrderItemDto orderItemDto);
 
-    List<OrderItem> toOrderItem(List<GetProductResponse> getProductResponseList);
+//    @Mapping(target = "productName", source = "GetProductResponse.name")
+//    OrderItem toOrderItem(GetProductResponse getProductResponse);
+//
+//    @Mapping(target = "productName", source = "GetProductResponse.name")
+//    List<OrderItem> toOrderItem(List<GetProductResponse> getProductResponseList);
 }
 

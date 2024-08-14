@@ -5,9 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.annotation.processing.Generated;
 import java.time.LocalDateTime;
 
 @Getter
@@ -18,8 +20,12 @@ import java.time.LocalDateTime;
 public class ProductStock {
     @Id
     @Field("_id")
+    @Indexed(unique = true)
     private String id;
+
+    @Indexed(unique = true)
     private String productId;
+
     private int stock;
     private LocalDateTime createdDate;
 }

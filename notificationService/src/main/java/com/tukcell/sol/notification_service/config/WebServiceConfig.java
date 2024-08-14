@@ -29,7 +29,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
         definition.setPortTypeName("OrderNotificationPort");
         definition.setLocationUri("/ws");
-        definition.setTargetNamespace("http://tukcell.com/sol/notification_service");
+        definition.setTargetNamespace("http:localhost:7006/notification_service");
         definition.setSchema(orderNotificationSchema);
         return definition;
     }

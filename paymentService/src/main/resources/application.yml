@@ -9,14 +9,13 @@ eureka:
     preferIpAddress: true
 
 server:
-  port: 7003
+  port: 7004
 grpc:
   server:
-    port: 9090
-
+    port: 9091
 spring:
   application:
-    name: catalog-service
+    name: payment-service
   datasource:
     url: jdbc:postgresql://localhost:5432/sol_payment
     username: postgres

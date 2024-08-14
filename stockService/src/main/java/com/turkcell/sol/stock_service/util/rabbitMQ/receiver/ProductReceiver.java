@@ -20,13 +20,17 @@ public class ProductReceiver {
 
     @RabbitListener(queues = "product-created", group = "stock.group")
     public void consume(ProductCreatedEvent productCreatedEvent) {
-        ProductStock productStock = productStockMapper.toProductStock(productCreatedEvent);
+        ProductStock productStock = new ProductStock();
+        productStock.setProductId(productCreatedEvent.getId());
+        productStock.setStock(productCreatedEvent.getStock());
         stockService.add(productStock);
     }
 
     @RabbitListener(queues = "product-updated", group = "stock.group")
     public void consume(ProductUpdatedEvent productUpdatedEvent) {
-        ProductStock productStock = productStockMapper.toProductStock(productUpdatedEvent);
+        ProductStock productStock = new ProductStock();
+        productStock.setProductId(productUpdatedEvent.getId());
+        productStock.setStock(productUpdatedEvent.getStock());
         stockService.update(productStock);
     }
 

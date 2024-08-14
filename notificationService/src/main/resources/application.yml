@@ -8,12 +8,12 @@ eureka:
     instance-id: ${spring.application.name}:${instanceId:${random.value}}
     preferIpAddress: true
 server:
-  port: 7003
+  port: 7006
 spring:
   application:
-    name: stock-service
+    name: notification-service
   data:
     mongodb:
-      database: sol_stock
+      database: sol_notification
       port: 27017
       host: localhost

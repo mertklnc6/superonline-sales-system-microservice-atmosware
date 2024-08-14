@@ -36,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductSender productSender;
     private final CatalogService catalogService;
 
+
     @Transactional
     @Override
     public CreatedProductResponse add(CreateProductRequest createProductRequest) {

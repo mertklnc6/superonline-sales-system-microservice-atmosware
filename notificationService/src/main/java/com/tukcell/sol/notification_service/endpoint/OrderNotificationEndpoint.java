@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderNotificationEndpoint {
 
-    private static final String NAMESPACE_URI = "http://turkcell.com/sol/notification_service";
+    private static final String NAMESPACE_URI = "http:localhost:7006/notification_service";
 
     private final OrderNotificationService orderNotificationService;
 

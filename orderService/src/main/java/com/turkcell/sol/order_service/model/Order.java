@@ -29,7 +29,7 @@ public class Order extends BaseEntity<UUID> {
     @Column(name = "total_price", nullable = false)
     private double totalPrice;
 
-    @Column(name = "order_number", unique = true, nullable = false, insertable = false , updatable = false)
+    @Column(name = "order_number", unique = true)
     private String orderNumber;
 
     @Column(name = "status")

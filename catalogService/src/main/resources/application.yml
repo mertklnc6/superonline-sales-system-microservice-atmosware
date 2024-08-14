@@ -9,7 +9,7 @@ eureka:
     preferIpAddress: true
 
 server:
-  port: 7007
+  port: 7008
 
 spring:
   application:

@@ -5,6 +5,7 @@ import java.util.UUID;
 public record GetCatalogItemResponse (
         String id,
         String name,
-        double price
+        String description,
+        String price
 ){
 }

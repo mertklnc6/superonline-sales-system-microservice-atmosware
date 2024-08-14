@@ -7,6 +7,6 @@ import com.turkcell.sol.order_service.model.OrderItem;
 import java.util.List;
 
 public interface OrderItemService {
-    void add(List<OrderItem> orderItemList, Order order);
+    void add(List<OrderItem> orderItemList);
     void update(List<OrderItem> orderItemList);
 }

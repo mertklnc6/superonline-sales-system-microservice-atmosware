@@ -13,11 +13,5 @@ public class FeignInterceptor implements RequestInterceptor {
         if (attributes == null) {
             return;
         }
-        String jwtHeader = attributes.getRequest().getHeader(HttpHeaders.AUTHORIZATION);
-        if (jwtHeader == null || !jwtHeader.startsWith("Bearer ")) {
-            return;
-        }
-        String jwt = jwtHeader.substring(7);
-        requestTemplate.header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwt));
     }
 }

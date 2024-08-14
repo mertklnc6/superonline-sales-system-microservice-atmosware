@@ -42,7 +42,7 @@ public class ProductController {
 
     @GetMapping("/getAllByIds")
     @ResponseStatus(HttpStatus.OK)
-    public List<GetProductResponse> getAllByIds(List<String> ids){
+    public List<GetProductResponse> getAllByIds(@RequestParam List<String> ids){
         return productService.getAllByIds(ids);
     }
 
@@ -53,9 +53,9 @@ public class ProductController {
         return productService.getById(id);
     }
 
-    @GetMapping("/getStockInfo/{id}")
+    @GetMapping("/getStockInfoById/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public boolean getStockInfo(@PathVariable String id){
+    public boolean getStockInfoById(@PathVariable String id){
         return productService.getStockInfo(id);
     }
 

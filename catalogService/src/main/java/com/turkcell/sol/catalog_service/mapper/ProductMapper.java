@@ -22,8 +22,13 @@ import java.util.List;
 public interface ProductMapper {
     Product toProduct(CreateProductRequest createProductRequest);
     CreatedProductResponse toCreatedProductResponse(Product product);
+
+    @Mapping(target = "productId", source = "product.id")
     List<GetProductResponse> toGetProductResponse(List<Product> productList);
+
+    @Mapping(target = "productId", source = "product.id")
     GetProductResponse toGetProductResponse(Product product);
+
     Product toProduct(UpdateProductRequest updateProductRequest);
     UpdatedProductResponse toUpdatedProductResponse(Product product);
     DeletedProductResponse toDeletedProductResponse(Product product);

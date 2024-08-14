@@ -1,5 +1,8 @@
 package com.turkcell.sol.order_service.service.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.util.JsonFormat;
 import com.turkcell.sol.*;
 import com.turkcell.sol.order_service.client.PaymentServiceClient;
 import com.turkcell.sol.order_service.controller.client.CatalogClient;
@@ -29,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +47,8 @@ public class OrderServiceImpl implements OrderService {
     private final PaymentServiceClient paymentServiceClient;
     private final OrderBusinessRules orderBusinessRules;
     private final OrderSender orderSender;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional
     @Override
@@ -60,10 +66,28 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.save(order);
 
-        orderSender.send(new OrderNotificationEvent(order.getId().toString(),"Order created."));
+        orderSender.send(new OrderNotificationEvent(order.getId().toString(), "Order created."));
 
-        List<OrderItem> orderItemList = orderItemMapper.toOrderItem(products);
-        orderItemService.add(orderItemList, order);
+        List<OrderItem> orderItemList = createOrderRequest.items().stream()
+                .map(item -> {
+
+                    GetProductResponse product = products.stream()
+                            .filter(p -> p.productId().toString().equals(item.productId()))
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("Product not found: " + item.productId()));
+
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setProductId(product.productId().toString());
+                    orderItem.setPrice(product.price());
+                    orderItem.setQuantity(item.quantity());
+                    orderItem.setProductName(product.name());
+                    orderItem.setOrder(order);
+
+                    return orderItem;
+                })
+                .collect(Collectors.toList());
+
+        orderItemService.add(orderItemList);
 
         this.decreaseStockForOrderItems(orderItemList);
 
@@ -74,10 +98,14 @@ public class OrderServiceImpl implements OrderService {
 
         PaymentRequest paymentRequest = PaymentRequest.newBuilder()
                 .setOrderId(order.getId().toString())
+                .setSuccess(createOrderRequest.paymentRequest().success())
                 .setAmount(order.getTotalPrice())
                 .setPaymentMethod(createOrderRequest.paymentRequest().paymentMethod())
-                .setPaymentDetails(constructPaymentDetails(createOrderRequest.paymentRequest().paymentMethod(), createOrderRequest.paymentRequest().paymentDetails()))
+                .setPaymentDetails(constructPaymentDetails(
+                        createOrderRequest.paymentRequest().paymentMethod(),
+                        objectMapper.convertValue(createOrderRequest.paymentRequest().paymentDetails(), JsonNode.class)))
                 .build();
+
 
         PaymentResponse paymentResponse = paymentServiceClient.processPayment(paymentRequest);
 
@@ -104,21 +132,29 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toCreatedOrderResponse(order);
     }
 
-    private PaymentDetails constructPaymentDetails(String paymentMethod, Object paymentDetails) {
+    private PaymentDetails constructPaymentDetails(String paymentMethod, JsonNode paymentDetailsNode) {
+        try {
+            PaymentDetails.Builder paymentDetailsBuilder = PaymentDetails.newBuilder();
 
-        if ("CREDIT_CARD".equals(paymentMethod)) {
-            CreditCardPaymentDetails creditCardDetails = (CreditCardPaymentDetails) paymentDetails;
-            return PaymentDetails.newBuilder()
-                    .setCreditCardDetails(creditCardDetails)
-                    .build();
-        } else if ("BANK_TRANSFER".equals(paymentMethod)) {
-            BankTransferPaymentDetails bankTransferDetails = (BankTransferPaymentDetails) paymentDetails;
-            return PaymentDetails.newBuilder()
-                    .setBankTransferDetails(bankTransferDetails)
-                    .build();
+            if ("CREDIT_CARD".equals(paymentMethod)) {
+                CreditCardPaymentDetails.Builder creditCardBuilder = CreditCardPaymentDetails.newBuilder();
+                JsonFormat.parser().merge(paymentDetailsNode.toString(), creditCardBuilder);
+                paymentDetailsBuilder.setCreditCardDetails(creditCardBuilder.build());
+            } else if ("BANK_TRANSFER".equals(paymentMethod)) {
+                BankTransferPaymentDetails.Builder bankTransferBuilder = BankTransferPaymentDetails.newBuilder();
+                JsonFormat.parser().merge(paymentDetailsNode.toString(), bankTransferBuilder);
+                paymentDetailsBuilder.setBankTransferDetails(bankTransferBuilder.build());
+            } else {
+                throw new IllegalArgumentException("Unknown payment method: " + paymentMethod);
+            }
+
+            return paymentDetailsBuilder.build();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error converting payment details to " + paymentMethod, e);
         }
-        throw new IllegalArgumentException("Unknown payment method: " + paymentMethod);
     }
+
+
 
 
     private void decreaseStockForOrderItems(List<OrderItem> orderItemList) {

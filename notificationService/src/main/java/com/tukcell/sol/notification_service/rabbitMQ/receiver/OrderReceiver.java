@@ -18,8 +18,8 @@ public class OrderReceiver {
     @RabbitListener(queues = "order-notification", group = "notification.group")
     public void consume(OrderNotificationEvent orderNotificationEvent) {
         OrderNotification orderNotification = new OrderNotification();
-        orderNotification.setOrderId(orderNotification.getOrderId());
-        orderNotification.setMessage(orderNotification.getMessage());
+        orderNotification.setOrderId(orderNotificationEvent.id());
+        orderNotification.setMessage(orderNotificationEvent.message());
         orderNotification.setCreatedDate(LocalDateTime.now());
         orderNotificationService.add(orderNotification);
     }

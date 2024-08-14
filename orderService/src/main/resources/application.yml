@@ -8,12 +8,15 @@ eureka:
     instance-id: ${spring.application.name}:${instanceId:${random.value}}
     preferIpAddress: true
 
+
 server:
-  port: 7002
+  port: 7001
+  tomcat:
+    relaxed-query-chars: [ '{','}' ]
 grpc:
   client:
     paymentService:
-      address: 'localhost:9090'
+      address: 'localhost:9091'
 spring:
   application:
     name: order-service

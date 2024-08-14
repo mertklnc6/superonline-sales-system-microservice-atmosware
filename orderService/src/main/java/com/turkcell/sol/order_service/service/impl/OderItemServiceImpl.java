@@ -2,6 +2,7 @@ package com.turkcell.sol.order_service.service.impl;
 
 import com.turkcell.sol.order_service.controller.client.CatalogClient;
 import com.turkcell.sol.order_service.controller.client.StockClient;
+import com.turkcell.sol.order_service.dto.responses.GetStockResponse;
 import com.turkcell.sol.order_service.model.Order;
 import com.turkcell.sol.order_service.model.OrderItem;
 import com.turkcell.sol.order_service.repository.OrderItemRepository;
@@ -20,14 +21,12 @@ public class OderItemServiceImpl implements OrderItemService {
     private final StockClient stockClient;
 
     @Override
-    public void add(List<OrderItem> orderItemList, Order order) {
+    public void add(List<OrderItem> orderItemList) {
 
         for(OrderItem orderItem : orderItemList){
-            catalogClient.getByIdProduct(orderItem.getProductId());
             if(catalogClient.getStockInfoById(orderItem.getProductId())){
-                stockClient.getByProductId(orderItem.getProductId());
+                GetStockResponse getStockResponse = stockClient.getByProductId(orderItem.getProductId());
             }
-            orderItem.setOrder(order);
             orderItemRepository.save(orderItem);
         }
     }

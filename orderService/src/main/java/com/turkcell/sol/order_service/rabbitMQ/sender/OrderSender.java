@@ -16,7 +16,7 @@ public class OrderSender {
 
     public void send(OrderNotificationEvent orderNotificationEvent) {
 
-        logger.info("Product created event sent to RabbitMQ: {}", orderNotificationEvent);
+        logger.info("Order notification event sent to RabbitMQ: {}", orderNotificationEvent);
         rabbitTemplate.convertAndSend("order-notification", orderNotificationEvent);
     }
 }
