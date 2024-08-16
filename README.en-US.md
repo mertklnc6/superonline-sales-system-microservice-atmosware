@@ -4,7 +4,7 @@ This repository contains a general structure orchestrated around a product regis
 
 ## General Workflow
 
-![senario.png](docs%2Fsenario.png)
+![senario_en.png](docs%2Fsenario_en.png)
 
 ## Database Diagram
 
