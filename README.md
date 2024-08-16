@@ -25,7 +25,7 @@
 
 - Request-Response Tasarım Deseni
 
-- @Data` anotasyonu yerine `@Getter`, `@Setter`, ... gibi anotasyonlar kullanımı ile modülerlik ve esneklik
+- `@Data` anotasyonu yerine `@Getter`, `@Setter`, ... gibi anotasyonlar kullanımı ile modülerlik ve esneklik
 
 - Immutable veriler için record tipi kullanımı
 
