@@ -2,7 +2,7 @@
 
 # Superonline Sales System Microservice Project
 
- Bu repo bir ürün kayıt sistemi, redis cache üzerinden listelenen katalog, ve sipariş sistemi üzerine orkestre olmuş genel bir yapı içerir. Java programlama dili kullanılarak microservice mimaride servisler içerisinde layered architecture uygulanmıştır. 
+ Bu repo bir ürün kayıt sistemi, redis cache üzerinden listelenen katalog,  bir sipariş sistemi, bir test ödeme sistemi ve bir sipariş bildirim servisi içermektedir. Saga koreografi deseni uygulanmıştır. Java programlama dili kullanılarak microservice mimaride servisler içerisinde layered architecture uygulanmıştır.
 
 
 ## Genel işleyiş

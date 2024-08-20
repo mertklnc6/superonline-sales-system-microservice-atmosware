@@ -1,6 +1,9 @@
 # Superonline Sales System Microservice Project
 
-This repository contains a general structure orchestrated around a product registration system, a catalog listed through Redis cache, and an order system. A layered architecture has been applied within the services in a microservice architecture using the Java programming language.
+This repo includes a product registration system, a catalog listed through Redis cache, an order
+system, a mock payment system, and an order notification service. The saga choreography pattern
+has been applied. Each service follows a layered architecture within a microservice architecture
+using the Java programming language.
 
 ## General Workflow
 
